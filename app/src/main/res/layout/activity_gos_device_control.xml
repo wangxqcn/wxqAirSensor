@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/header_toolbar" />
+    
+	<ScrollView 
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:background="@color/background_color"
+	    android:fadingEdge="vertical"
+	    android:paddingBottom="10dp"
+	    android:paddingTop="20dp"
+	    android:scrollbars="vertical" >
+
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="vertical"
+	        android:scrollbars="vertical" >
+	        
+			
+            <!-- 温度(数值只读) -->
+			 <RelativeLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="1dp"
+					android:background="@color/white"
+					android:padding="10dp" >
+			 
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="match_parent"
+						android:layout_centerVertical="true"
+						android:text="温度" />
+
+					<TextView
+						android:id="@+id/tv_data_Temp"
+						android:layout_width="110dp"
+						android:layout_height="match_parent"
+						android:layout_alignParentRight="true"
+						android:layout_centerVertical="true"
+						android:gravity="end"
+						android:textSize="16sp"
+						android:textColor="@color/gray" />	
+			</RelativeLayout>
+	
+			
+            <!-- 湿度(数值只读) -->
+			 <RelativeLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="1dp"
+					android:background="@color/white"
+					android:padding="10dp" >
+			 
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="match_parent"
+						android:layout_centerVertical="true"
+						android:text="湿度" />
+
+					<TextView
+						android:id="@+id/tv_data_Humi"
+						android:layout_width="110dp"
+						android:layout_height="match_parent"
+						android:layout_alignParentRight="true"
+						android:layout_centerVertical="true"
+						android:gravity="end"
+						android:textSize="16sp"
+						android:textColor="@color/gray" />	
+			</RelativeLayout>
+	
+			
+            <!-- 光照强度(数值只读) -->
+			 <RelativeLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="1dp"
+					android:background="@color/white"
+					android:padding="10dp" >
+			 
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="match_parent"
+						android:layout_centerVertical="true"
+						android:text="光照强度" />
+
+					<TextView
+						android:id="@+id/tv_data_Light"
+						android:layout_width="110dp"
+						android:layout_height="match_parent"
+						android:layout_alignParentRight="true"
+						android:layout_centerVertical="true"
+						android:gravity="end"
+						android:textSize="16sp"
+						android:textColor="@color/gray" />	
+			</RelativeLayout>
+	
+			
+            <!-- 二氧化碳(数值只读) -->
+			 <RelativeLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="1dp"
+					android:background="@color/white"
+					android:padding="10dp" >
+			 
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="match_parent"
+						android:layout_centerVertical="true"
+						android:text="二氧化碳" />
+
+					<TextView
+						android:id="@+id/tv_data_Co2"
+						android:layout_width="110dp"
+						android:layout_height="match_parent"
+						android:layout_alignParentRight="true"
+						android:layout_centerVertical="true"
+						android:gravity="end"
+						android:textSize="16sp"
+						android:textColor="@color/gray" />	
+			</RelativeLayout>
+	
+			
+            <!-- 设备MAC地址(扩展可读) -->
+			 <RelativeLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="1dp"
+					android:background="@color/white"
+					android:padding="10dp" >
+			 
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="match_parent"
+						android:layout_centerVertical="true"
+						android:text="设备MAC地址" />
+					
+					<TextView
+						android:id="@+id/tv_extend_DeviceMac"
+						android:layout_width="200dp"
+						android:layout_height="wrap_content"
+						android:layout_alignParentRight="true"
+						android:layout_centerVertical="true"
+						android:gravity="start"
+						android:textSize="16sp"
+						android:textColor="@color/gray" />				
+			</RelativeLayout>
+	
+			
+            <!-- 设备硬件版本(扩展可读) -->
+			 <RelativeLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="1dp"
+					android:background="@color/white"
+					android:padding="10dp" >
+			 
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="match_parent"
+						android:layout_centerVertical="true"
+						android:text="设备硬件版本" />
+					
+					<TextView
+						android:id="@+id/tv_extend_DeviceHardVer"
+						android:layout_width="200dp"
+						android:layout_height="wrap_content"
+						android:layout_alignParentRight="true"
+						android:layout_centerVertical="true"
+						android:gravity="start"
+						android:textSize="16sp"
+						android:textColor="@color/gray" />				
+			</RelativeLayout>
+	
+			
+            <!-- 设备软件版本(扩展可读) -->
+			 <RelativeLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="1dp"
+					android:background="@color/white"
+					android:padding="10dp" >
+			 
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="match_parent"
+						android:layout_centerVertical="true"
+						android:text="设备软件版本" />
+					
+					<TextView
+						android:id="@+id/tv_extend_DeviceSoftVer"
+						android:layout_width="200dp"
+						android:layout_height="wrap_content"
+						android:layout_alignParentRight="true"
+						android:layout_centerVertical="true"
+						android:gravity="start"
+						android:textSize="16sp"
+						android:textColor="@color/gray" />				
+			</RelativeLayout>
+	
+			
+            <!-- 设备IP地址(扩展可读) -->
+			 <RelativeLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="1dp"
+					android:background="@color/white"
+					android:padding="10dp" >
+			 
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="match_parent"
+						android:layout_centerVertical="true"
+						android:text="设备IP地址" />
+					
+					<TextView
+						android:id="@+id/tv_extend_DeviceIp"
+						android:layout_width="200dp"
+						android:layout_height="wrap_content"
+						android:layout_alignParentRight="true"
+						android:layout_centerVertical="true"
+						android:gravity="start"
+						android:textSize="16sp"
+						android:textColor="@color/gray" />				
+			</RelativeLayout>
+	
+		
+	    </LinearLayout>
+
+	</ScrollView>
+</LinearLayout>
