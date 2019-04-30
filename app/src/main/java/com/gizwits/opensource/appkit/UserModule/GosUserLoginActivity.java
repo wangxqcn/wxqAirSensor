@@ -1,7 +1,13 @@
 package com.gizwits.opensource.appkit.UserModule;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -19,6 +25,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gizwits.opensource.appkit.CommonModule.MyActivity;
+import com.gizwits.opensource.appkit.CommonModule.SplashActivity;
+import com.gizwits.opensource.appkit.MessageCenter;
 import com.gizwits.opensource.appkit.R;
 import com.gizwits.gizwifisdk.api.GizWifiSDK;
 import com.gizwits.gizwifisdk.enumration.GizThirdAccountType;
@@ -48,6 +57,7 @@ import com.tencent.tauth.Tencent;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -189,6 +199,7 @@ public class GosUserLoginActivity extends com.gizwits.opensource.appkit.UserModu
                     break;
                 // 自动登录
                 case AUTO_LOGIN:
+                    Log.d("wxq","Handler : AUTO_LOGIN");
                     progressDialog.show();
                     GosDeviceListFragment.loginStatus = 0;
                     GizWifiSDK.sharedInstance().userLogin(
@@ -216,6 +227,16 @@ public class GosUserLoginActivity extends com.gizwits.opensource.appkit.UserModu
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (GosDeploy.functionMap == null) {
+            Log.e("wxq","GosDeploy.functionMap == null");
+            //进入到这里是不可能再往下执行了,因为SDK的初始化在前面未执行
+            Toast.makeText(getApplicationContext(),"大概是手机权限(如精确位置)未授于程序强制关闭了吧!!!",Toast.LENGTH_LONG).show();
+
+            //Intent intent  = new Intent(this, SplashActivity.class);
+            //startActivity(intent);
+            this.finish();
+        }
+
         setTheme(R.style.AppTheme);
 //        requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
         setContentView(R.layout.activity_gos_user_login);
@@ -228,15 +249,16 @@ public class GosUserLoginActivity extends com.gizwits.opensource.appkit.UserModu
     @Override
     protected void onResume() {
         super.onResume();
-        /*
         //push-all-start
         //push_jiguang-false-start
         JPushInterface.onResume(this);
         //push_jiguang-false-end
         //push-all-end
-        */
-        autoLogin();
+        //autoLogin();
         cleanuserthing();
+
+        //模拟点击跳过登录
+        onClick(this.tvPass);
     }
 
 
@@ -248,12 +270,15 @@ public class GosUserLoginActivity extends com.gizwits.opensource.appkit.UserModu
     }
 
     private void autoLogin() {
+        Log.d("wxq","private void autoLogin()");
         if (TextUtils.isEmpty(spf.getString("UserName", ""))
                 || TextUtils.isEmpty(spf.getString("PassWord", ""))) {
+            Log.w("wxq","UserName or PassWord is empty");
             return;
         }
+        Log.d("wxq","sendEmptyMessageDelayed: 1000ms: handler_key.AUTO_LOGIN.ordinal()");
         baseHandler.sendEmptyMessageDelayed(handler_key.AUTO_LOGIN.ordinal(),
-                1000);
+                10);
     }
 
     private void initView() {
@@ -267,7 +292,7 @@ public class GosUserLoginActivity extends com.gizwits.opensource.appkit.UserModu
         tvForget = (TextView) findViewById(R.id.tvForget);
         //resetPassword-all-end
         //login_anonymous-false-start
-        tvPass = (TextView) findViewById(R.id.tvPass);
+        tvPass = (TextView) findViewById(R.id.tvPass); //跳过登录
         //login_anonymous-false-end
         cbLaws = (CheckBox) findViewById(R.id.cbLaws);
 
@@ -288,6 +313,7 @@ public class GosUserLoginActivity extends com.gizwits.opensource.appkit.UserModu
         llWechat1 = (LinearLayout) findViewById(R.id.llWechat1);
         //login_weChat-false-end
         if (!GosDeploy.appConfig_Login_Anonymous()) {
+            Log.w("wxq","Login_Anonymous ---- false");
             tvPass.setVisibility(View.GONE);
         }
         if (!GosDeploy.appConfig_Register_PhoneUser()) {
@@ -390,6 +416,7 @@ public class GosUserLoginActivity extends com.gizwits.opensource.appkit.UserModu
             //resetPassword-all-end
             //login_anonymous-false-start
             case R.id.tvPass:
+                Log.d("wxq","user press button Pass login");
                 intent = null;
                 if (GosDeploy.appConfig_GizwitsInfoAppID() != null && GosDeploy.appConfig_GizwitsInfoAppSecret() != null) {
                 }
@@ -397,6 +424,7 @@ public class GosUserLoginActivity extends com.gizwits.opensource.appkit.UserModu
                     intent = new Intent(GosUserLoginActivity.this, GosMainActivity.class);
                 }
                 startActivity(intent);
+                ////this.finish();//////////////////////////////////////////////// in singleTask mode app will be exit : wxq
                 break;
             //login_anonymous-false-end
             //login_qq-false-start
@@ -532,7 +560,6 @@ public class GosUserLoginActivity extends com.gizwits.opensource.appkit.UserModu
             GosDeviceListFragment.loginStatus = 1;
             Toast.makeText(GosUserLoginActivity.this,
                     R.string.toast_login_successful, toastTime).show();
-            /*
             // TODO 绑定推送\
             //push-all-start
             //push_baidu-false-start   push_baidu-true-start
@@ -550,7 +577,6 @@ public class GosUserLoginActivity extends com.gizwits.opensource.appkit.UserModu
             }
             //push_jiguang-false-end   push_jiguang-true-end
             //push-all-end
-            */
 //            PushManager.startWork(getApplicationContext(), PushConstants.LOGIN_TYPE_API_KEY, "T45LbeyAo3muOzMHztipttr8");
             if (!TextUtils.isEmpty(etName.getText().toString())
                     && !TextUtils.isEmpty(etPsw.getText().toString())) {
@@ -593,6 +619,7 @@ public class GosUserLoginActivity extends com.gizwits.opensource.appkit.UserModu
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Log.w("wxq","user press BACK button");
             exitBy2Click(); // 调用双击退出函数
         }
         return false;
@@ -618,6 +645,8 @@ public class GosUserLoginActivity extends com.gizwits.opensource.appkit.UserModu
             }, 2000); // 如果2秒钟内没有按下返回键，则启动定时器取消掉刚才执行的任务
 
         } else {
+            Log.w("wxq","user press BACK button - activity.finish()");
+            Log.w("wxq","user press BACK button - System.exit(0)");
             this.finish();
             System.exit(0);
         }
